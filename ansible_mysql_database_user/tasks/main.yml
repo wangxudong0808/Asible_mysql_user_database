@@ -1,0 +1,36 @@
+---
+# tasks file for ansible_mysql_database_user
+
+- name: install mariadb
+  yum:
+        name: mariadb-server
+        state: present
+
+- name: start mariadb
+  service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+- name: add epel repo
+  shell: wget -O /etc/yum.repos.d/epel.repo https://mirrors.aliyun.com/repo/epel-7.repo
+
+- name: install PyMySQL
+  yum:
+    name: python2-PyMySQL
+    state: present
+
+- name: create database wordpress
+  mysql_db:
+        name: wordpress
+        state: present
+        encoding: utf8
+
+- name: create user word
+  mysql_user:
+        name: word
+        host: "%"
+        state: present
+        password: DD.08.dd
+        priv: '*.*:ALL,GRANT'
+
